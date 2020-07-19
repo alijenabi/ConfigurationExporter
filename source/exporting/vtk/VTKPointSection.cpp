@@ -1,0 +1,72 @@
+//
+//  VTKPointSection.cpp
+//  Node-Based Simulator (NBS)
+//
+//  Created by Ali Jenabidehkordi on 11.07.2020.
+//  Copyright © 2020 Ali Jenabidehkordi. All rights reserved.
+//
+
+#include "VTKPointSection.h"
+
+namespace exporting {
+
+VTKPointSection::VTKPointSection(const std::string &name)
+    : VTKSection{name + "_" + VTKSection::to_string(Type::Points), Type::Points}
+{
+    bodyPtr()->setSeperator(" ");
+}
+
+VTKPointSection::VTKPointSection(const std::string &path, const std::string &name)
+    : VTKPointSection{path + name}
+{
+}
+
+VTKPointSection::PointIndex VTKPointSection::pointCount() const {
+    return body().cellCount() / 3;
+}
+
+std::string VTKPointSection::header() const
+{
+    return  "POINTS " + std::to_string(pointCount()) + " double";
+}
+
+VTKPointSection::PointIndex VTKPointSection::appendPoint(VTKPointSection::Dimension x,
+                                                         VTKPointSection::Dimension y,
+                                                         VTKPointSection::Dimension z){
+    if (!bodyPtr()->appendCell(x, true)
+            || !bodyPtr()->appendCell(y, true)
+            || !bodyPtr()->appendCell(z, true))
+        throw std::runtime_error("Could not append one of the point dimension to the file.");
+    return currentPointIndex();
+}
+
+VTKPointSection::PointIndex VTKPointSection::appendPoint(const VTKPointSection::Point &dimensions) {
+    if (dimensions.size() != 3)
+        throw std::range_error("The points of vtk has to have 3 dimensions (3D).");
+    return appendPoint(dimensions[0], dimensions[1], dimensions[2]);
+}
+
+std::vector<VTKPointSection::PointIndex> VTKPointSection::appendPoints(std::vector<VTKPointSection::Dimension> dimensions){
+    std::vector<PointIndex> ans;
+    if(dimensions.empty())
+        return ans;
+    if(dimensions.size() % 3)
+        throw std::range_error("The points of vtk has to have 3 dimensions (3D).");
+
+    ans.reserve(dimensions.size() / 3);
+    ans.emplace_back(pointCount());
+
+    if ( bodyPtr()->appendRow(dimensions, true) != dimensions.size() )
+        throw std::runtime_error("Could not append one of the point dimension to the file.");
+
+    const auto last = currentPointIndex();
+    while(ans.back() < last)
+        ans.emplace_back(ans.back() + 1);
+    return ans;
+}
+
+VTKPointSection::PointIndex VTKPointSection::currentPointIndex() const {
+    return body().cellCount() / 3 - 1;
+}
+
+} // namespace exporting
