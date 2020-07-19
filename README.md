@@ -82,9 +82,11 @@ No installation required, simply download or fork the code and start using it.
 
 6. Open the files with ParaView and explore them. 
 
-![Point Cluster](/image/point-cluster.png)
-![Points' Distance to the Coordinate System origin in double](/image/distance_double.png)
-![Points' Distance to the Coordinate System origin in int](/image/distance_int.png)
+<div style="display: flex;">
+<img src="images/point-cluster.png" alt="Point Cluster" width="30%" height="30%">
+<img src="images/distance_double.png" alt="Points' Distance to the Coordinate System origin in double" width="30%" height="30%">
+<img src="images/distance_int.png" alt="Points' Distance to the Coordinate System origin in int" width="30%" height="30%">
+</div>
 
 ## Examples
 You can find complete code to create the above example (point cluster) and more in the [`'examples'` directory](/examples) of this repository. 
