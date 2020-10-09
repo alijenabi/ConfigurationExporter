@@ -12,13 +12,13 @@ The provided code is the export package of my Ph.D. work, which eases the export
 If you answer one of the following questions with NO, then this code probably is no help for you.
 * Do you have knowledge of numerical simulations?
 * Do you use C++17 for your models?
-* Are you searching for a way to reduce your situation's exportation cost in a safe way?
+* Are you searching for a way to reduce your simulations' exportation cost in a safe way?
 
 ## Why Configuration Exporter?
 
 The Configuration Exporter is not the faster nor the most optimized code for exporting configurations to the VTK format. Configuration Exporter is developed to address the following problems:
 * In the world of computational engineering, we always search to reduce the cost of computation. However, the secondary costs like exporting the simulations' results often take a large portion of the resources, which are preferable to be dedicated to running the simulation itself. The Configuration Exporter utilizes a series of temporary files and flushes the simulation result into them immediately as they become available. Thus it allocates resources as minimum as possible during run time.
-* To provide better post-processing experience, simulators often use a separate post-processing software. The data will then be stored inside a database or a binary file format. This approach, however, demands that the user wait until the simulation is over. The Configuration Exporter provides the means to export the modeling stages (i.e., configurations) parallel to the simulation. Thus the end-user can start post-processing simulation results in parallel with undergoing analyses. This allows the researcher to stop the simulation if the desired result is achieved or simulation is not propagated as assumed.
+* To provide better post-processing experience, simulators often use a separate post-processing software. The data will then be stored inside a database or a binary file format. This approach, however, demands that the user wait until the simulation is over. The Configuration Exporter provides the means to export the modeling stages (i.e., configurations) parallel to the simulation. Thus the end-user can start post-processing simulation results in parallel with undergoing analyses. This allows the researcher to stop the simulation if the desired result is not achieved or simulation is not propagated as assumed.
 
 ## Prerequisites
 The code uses some of the `C++17` features, thus a compatible compiler is required.
