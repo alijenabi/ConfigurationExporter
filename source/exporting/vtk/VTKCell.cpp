@@ -34,6 +34,8 @@ VTKCell::Code VTKCell::code(VTKCell::Type type)
     case CT::QuadraticQuad:         return 23;
     case CT::QuadraticTetra:        return 24;
     case CT::QuadraticHexahedron:   return 25;
+    case CT::QuadraticPyramid:      return 27;
+    case CT::QuadraticWedge:        return 31;
     }
     throw std::range_error("The cell type is out of known range.");
 }
@@ -61,6 +63,8 @@ VTKCell::PointsPerCell VTKCell::maxPoints(VTKCell::Type type)
     case CT::Hexahedron:
     case CT::QuadraticQuad:         return 8;
     case CT::QuadraticTetra:        return 10;
+    case CT::QuadraticWedge:        return 12;
+    case CT::QuadraticPyramid:      return 13;
     case CT::QuadraticHexahedron:   return 20;
     case CT::PolyVertex:
     case CT::PolyLine:
@@ -93,6 +97,8 @@ VTKCell::PointsPerCell VTKCell::minPoints(VTKCell::Type type)
     case CT::Hexahedron:
     case CT::QuadraticQuad:         return 8;
     case CT::QuadraticTetra:        return 10;
+    case CT::QuadraticWedge:        return 12;
+    case CT::QuadraticPyramid:      return 13;
     case CT::QuadraticHexahedron:   return 20;
     }
     throw std::range_error("The cell type is out of known range.");

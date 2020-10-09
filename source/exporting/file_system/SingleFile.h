@@ -49,7 +49,7 @@ public:
     /**
      * @brief The constructor.
      */
-    ~SingleFile();
+     ~SingleFile();
 
     /**
      * @brief Gives true if the file is open, false otherwise.

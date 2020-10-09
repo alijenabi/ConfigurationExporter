@@ -48,7 +48,9 @@ public:
         QuadraticTriangle,
         QuadraticQuad,
         QuadraticTetra,
-        QuadraticHexahedron
+        QuadraticHexahedron,
+        QuadraticWedge,
+        QuadraticPyramid
     };
 
     /**
