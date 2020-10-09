@@ -77,7 +77,7 @@ public:
      * @brief Append a cell to the vtk sections' body's files (temp files).
      * @note This will not add any point to the point section but instead maps them to the new cell.
      * @param type The type of the cell.
-     * @param cellPointsMap The points-vertexes map of the cell.
+     * @param cellPointsMap The points-vertices map of the cell.
      * @throws If the number of points on the map is not in the acceptable range.
      * @throws If the configuration is locked.
      */
@@ -88,7 +88,7 @@ public:
      * @brief Append a cell to the vtk sections' body's files (temp files).
      * @note This will not add points to the point section and maps them to the new cell.
      * @param type The type of the cell.
-     * @param points The location of cell's vertexes.
+     * @param points The location of cell's vertices.
      * @throws If the number of points is not in the acceptable range.
      * @throws If the configuration is locked.
      */
@@ -101,8 +101,8 @@ public:
      * @note The points can be added afterward by other cells too.
      * @note The map should be complete (including the current added points)
      * @param type The type of the cell.
-     * @param points The location of cell's vertexes.
-     * @param cellPointsMap The points-vertexes map of the cell.
+     * @param points The location of cell's vertices.
+     * @param cellPointsMap The points-vertices map of the cell.
      * @throws If the number of points on the map is not in the acceptable range.
      * @throws If the configuration is locked.
      */
@@ -117,6 +117,14 @@ public:
      * @throws If the size of the sections' content are not compatible.
      */
     void assemble(bool removeSections = true);
+
+    /**
+     * @brief Removes the file without move it to bin/trash directory.
+     * @return True if successful, false otherwise.
+     */
+    bool remove() {
+        return removeTemperoryFiles() || TextFile::remove();
+    }
 
     /**
      * @brief Flushes the temp files of sections' bodies but keeps them open!

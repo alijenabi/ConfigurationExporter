@@ -71,12 +71,14 @@ public:
     template<typename N>
     CharCount appendNumber(const N number, bool scientific = false, int precision = -1){
         const auto type = (scientific) ? "e" : "f";
-        const unsigned int defaultPrecision = (typeid(N) == typeid(double)) ? 14 : ((typeid (N) == typeid(float)) ? 6: 0);
+        const unsigned int defaultPrecision = (typeid(N) == typeid(double)) ? 12 : ((typeid (N) == typeid(float)) ? 6: 0);
         const unsigned int finalPercision = (precision < 0) ? defaultPrecision : precision;
         const auto str = "%." + std::to_string(finalPercision) + type;
 
         if(!isOpen())
             open(false);
+        if (isZero(number))
+            return std::fprintf(filePtr(), str.c_str(), static_cast<double>(0));
         return std::fprintf(filePtr(), str.c_str(), static_cast<double>(number));
     }
 
@@ -105,6 +107,25 @@ public:
      * @return True, if successful, false otherwise.
      */
     bool nextLine();
+
+private:
+
+    /**
+     * @brief Whether the value is close enoght to zero or not.
+     * @param value The value to check.
+     * @return True, if the value is close to zero false otherwise.
+     */
+    template<typename T>
+    constexpr bool isZero(T value) {
+        constexpr auto abs = [](const T & p) { return (p >= 0)? p : -p;};
+        if (value == 0)
+            return true;
+        if (typeid(T) == typeid(double))
+            return abs(value) <= 0.00000000001;
+        if (typeid(T) == typeid(float))
+            return abs(value) <= 0.00001f;
+        return value == 0;
+    }
 
 };
 

@@ -93,7 +93,18 @@ void VTKFile::assemble(bool removeSections) {
     const auto pointSize = p_cellSection.pointCount();
     const auto cellSize = p_cellSection.cellCount();
 
-    assembleConfiguration(false);
+    try {
+        assembleConfiguration(false);
+    } catch (const std::exception& e) {
+        auto allRemoved = false;
+        if (removeSections)
+            if (removeTemperoryFiles())
+                    allRemoved = remove();
+
+        if (!allRemoved)
+            throw std::runtime_error("Could not remove the files (sections' boies).");
+        throw e.what();
+    }
 
     // Attribute Section
     bool headerPrinted = false;

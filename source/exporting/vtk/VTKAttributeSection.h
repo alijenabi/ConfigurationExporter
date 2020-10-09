@@ -190,14 +190,18 @@ protected:
      */
     template<typename T>
     void setAttributeDataType() {
-        if(static_cast<bool>(bodyPtr()->cellCount()))
-            throw std::runtime_error("The body is not empty, the content type cannot be changed.");
-        if(typeid(T) == typeid(double))
+        const auto oldType = p_dataType;
+        if(typeid(T) == typeid(double)) {
             p_dataType = DataType::Double;
-        else if (typeid(T) == typeid(float))
+        } else if (typeid(T) == typeid(float)) {
             p_dataType = DataType::Float;
-        else
+        } else {
             p_dataType = DataType::Int;
+        }
+
+        if(static_cast<bool>(bodyPtr()->cellCount()) && oldType != p_dataType) {
+            throw std::runtime_error("The body is not empty, the content type cannot be changed.");
+        }
     }
 
 private:
