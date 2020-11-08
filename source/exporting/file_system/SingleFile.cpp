@@ -6,6 +6,7 @@
 //  Copyright © 2020 Ali Jenabidehkordi. All rights reserved.
 //
 
+#include "FileRegistar.h"
 #include "SingleFile.h"
 
 namespace exporting::file_system {
@@ -45,15 +46,15 @@ void SingleFile::close()
 {
     if(isOpen()) {
         std::fflush(p_file);
-        std::fclose(p_file);
+        FileRegistar::current().close(p_file);
+        p_file = nullptr;
     }
-    p_file = nullptr;
 }
 
 void SingleFile::open(const bool override)
 {
     const auto option = (override)? "w" : "a";
-    p_file = std::fopen(fullName(true).c_str(), option);
+    p_file = FileRegistar::current().open(fullName(true).c_str(), option);
 }
 
 bool SingleFile::cleanContent() noexcept

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Ali Jenabidehkordi. All rights reserved.
 //
 
+#include "file_system/FileRegistar.h"
 #include "TextFile.h"
 
 namespace exporting {
@@ -28,20 +29,20 @@ TextFile::CharCount TextFile::append(const char *c_str) {
     return std::fputs(c_str, filePtr());
 }
 
-TextFile::CharCount TextFile::append(const std::string &str)
-{
+TextFile::CharCount TextFile::append(const std::string &str) {
     return append(str.c_str());
 }
 
 bool TextFile::appendFileContent(const std::string &filePath) {
     unsigned long addedChars = 0;
     char buffer[1024];
-    auto otherFile = fopen(filePath.c_str(), "r");
+    auto otherFile = file_system::FileRegistar::current().open(filePath.c_str(), "r");
     if (!isOpen())
         open(false);
     if (otherFile)
         while (std::fgets(buffer, sizeof(buffer), otherFile))
             addedChars += std::fputs(buffer, filePtr());
+    file_system::FileRegistar::current().close(otherFile);
     return addedChars;
 }
 

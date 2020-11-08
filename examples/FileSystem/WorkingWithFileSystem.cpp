@@ -9,6 +9,7 @@
 
 #include "exporting/file_system/FileSeries.h"
 #include "exporting/file_system/FileSeries.h"
+#include "exporting/file_system/FileRegistar.h"
 #include <time.h>
 #include <iostream>
 
@@ -44,7 +45,7 @@ void wait(const Second seconds) {
  */
 int main()
 {
-    const string home = "<yourComputeName>";
+    const string home = "alijenabi";
     const double wating = 10; // seconds
     const string desktopPath = " /Users/" + home + "/Desktop/";
 
@@ -74,12 +75,15 @@ int main()
 
     startingTime = clock();
     const string documentsPath = "/Users/" + home + "/Documents/test/";
-    auto fileSeries = FileSeries<SingleFile>(documentsPath , "FileSeriesTest", "tst", 100);
+    auto fileSeries = FileSeries<SingleFile>(documentsPath , "FileSeriesTest", "tst", 10000);
+    fileSeries.removeAll(false);
     cout << "Creating a file series \"" << fileSeries.basename() << "\" on \"" << fileSeries.directory() << "\" path." << endl;
     cout << "Adding 200 files to the series with size of " << fileSeries.maximumSize() << ".";
-    for(int itr = 0; itr < 200; itr++)
-       if (fileSeries.next().isOpen())
-        cout << fileSeries.fullName(fileSeries.highestIndex() ,true) << endl;
+    for(int itr = 0; itr < 20000; itr++)
+        if (fileSeries.next().isOpen()) {
+            cout << fileSeries.fullName(fileSeries.highestIndex() ,true) << endl;
+            fileSeries.last().close();
+        }
     cout << endl;
     cout << "The files are created in " << timeIntervalSince(startingTime) << " seconds." << endl;
 

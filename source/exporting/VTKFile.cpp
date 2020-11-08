@@ -166,6 +166,10 @@ void VTKFile::assemble(bool removeSections) {
     close();
 }
 
+bool VTKFile::remove() {
+    return removeTemperoryFiles() || TextFile::remove();
+}
+
 bool VTKFile::save() {
     if (p_configuration) {
         p_cellSection.save();
@@ -214,7 +218,8 @@ VTKAttributeSection &VTKFile::operator[](const std::string &name) {
 }
 
 void VTKFile::assembleConfiguration(bool block) {
-    open(true);
+    if (!isOpen())
+        open(true);
 
     if (p_configuration) {
         p_configuration->save(); // Flush the tempfiles.

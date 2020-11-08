@@ -7,6 +7,7 @@
 //
 
 #include "BaseFile.h"
+#include "FileRegistar.h"
 
 namespace exporting::file_system {
 
@@ -70,9 +71,9 @@ const std::string BaseFile::name(const bool includePath) const
 bool BaseFile::create(const bool override)
 {
     const auto option = (override)? "w+" : "a+";
-    const auto p_file = std::fopen(fullName(true).c_str(), option);
+    const auto p_file = FileRegistar::current().open(fullName(true).c_str(), option);
     if (p_file)
-        return !static_cast<bool>(std::fclose(p_file));
+        return !static_cast<bool>(FileRegistar::current().close(p_file));
     return false;
 }
 

@@ -122,9 +122,7 @@ public:
      * @brief Removes the file without move it to bin/trash directory.
      * @return True if successful, false otherwise.
      */
-    bool remove() {
-        return removeTemperoryFiles() || TextFile::remove();
-    }
+    bool remove();
 
     /**
      * @brief Flushes the temp files of sections' bodies but keeps them open!

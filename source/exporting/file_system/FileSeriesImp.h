@@ -166,7 +166,9 @@ FileType & FileSeries<FileType>::at(const FileSeries<FileType>::Index index)
         const auto content_ptr = p_files[index];
         if (!content_ptr->isOpen())
             content_ptr->open(false);
-        return *content_ptr;
+        if (content_ptr)
+            return *content_ptr;
+        throw std::runtime_error("The file in index " + std::to_string(index) + " is set to null.");
     }
 
     if(isFull()) {
@@ -193,6 +195,11 @@ FileType & FileSeries<FileType>::at(const FileSeries<FileType>::Index index)
 }
 
 template<typename FileType>
+FileType &FileSeries<FileType>::last() {
+    at(p_headIndex);
+}
+
+template<typename FileType>
 FileType &FileSeries<FileType>::next() {
     if(p_overriding || (!p_overriding && !p_fillVocations)) {
         p_headIndex = p_files.empty() ? 0 : highestIndex() + 1;
@@ -208,10 +215,9 @@ FileType &FileSeries<FileType>::next() {
 template<typename FileType>
 bool FileSeries<FileType>::remove(const FileSeries<FileType>::Index index)
 {
-    bool isRemoved = !static_cast<bool>(std::remove(fullName(index, true).c_str()));
-    if (isRemoved){
+    const auto isRemoved = !static_cast<bool>(std::remove(fullName(index, true).c_str()));
+    if (isRemoved)
         p_exsistedIndexes.erase(index);
-    }
     if (length() < p_maximumSize)
         p_warningSent = false;
     return isRemoved;

@@ -154,6 +154,11 @@ public:
     FileType & at(const FileSeries::Index index);
 
     /**
+     * @brief Gives the last created file in the series.
+     */
+    FileType & last();
+
+    /**
      * @brief Gives the content of the next file.
      */
     FileType & next();

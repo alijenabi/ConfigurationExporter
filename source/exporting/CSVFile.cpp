@@ -7,8 +7,8 @@
 //
 
 #include "CSVFile.h"
-
 #include <vector>
+
 namespace exporting {
 
 CSVFile::CSVFile(const std::string &name,

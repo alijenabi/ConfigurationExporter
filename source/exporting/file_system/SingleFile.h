@@ -95,7 +95,7 @@ protected:
 
 private:
 
-   file_ptr p_file;             // The file pointer.
+   file_ptr p_file;     // The file pointer.
 
 };
 
